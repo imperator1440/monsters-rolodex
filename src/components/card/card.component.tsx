@@ -1,8 +1,14 @@
 import { Component } from "react";
 
+import { IMonster } from '../../App';
+
 import './card.styles.css';
 
-class Card extends Component {
+interface IProps {
+  monster: IMonster;
+};
+
+class Card extends Component<IProps> {
   render() {
     const { name, id, email } = this.props.monster;
 

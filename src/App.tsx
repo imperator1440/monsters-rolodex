@@ -1,33 +1,47 @@
-import { Component } from 'react';
+import { Component, ChangeEvent } from 'react';
 
 import CardList from './components/card-list/card-list.component';
 import SearchBox from './components/search-box/search-box.component';
+
+import { getUsers } from './utils/data.utils';
+
 import './App.css';
 
+export interface IMonster {
+  id: string;
+  name: string;
+  email: string;
+};
 
-class App extends Component {
-  constructor() {
-    super();
+interface IProps {
+}
+
+interface IState {
+  monsters: IMonster[];
+  searchField: string;
+};
+
+class App extends Component<IProps, IState> {
+
+  constructor(props: IProps) {
+    super(props);
 
     this.state = {
       monsters: [],
       searchField: '',
     };
-  }
+  };
 
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => response.json())
-      .then((users) => 
-        this.setState(
-          () => {
-            return { monsters: users };
-          } 
-        )
-      ); 
+    const fetchMonsters = async () => {
+      const users = await getUsers<IMonster[]>('https://jsonplaceholder.typicode.com/users'); 
+      this.setState({ monsters: users }); 
+    }
+
+    fetchMonsters();
   }
 
-  onSearchChange = (event) => {
+  onSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const searchField = event.target.value.toLocaleLowerCase();
     this.setState(() => {
       return { searchField };

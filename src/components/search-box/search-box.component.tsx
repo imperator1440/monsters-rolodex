@@ -1,11 +1,16 @@
-import { Component } from "react";
+import { Component, ChangeEventHandler } from "react";
 
 import './search-box.styles.css';
 
-class SearchBox extends Component {
+interface ISearchBoxProps {
+  className: string;
+  placeholder?: string;
+  onChangeHandler: ChangeEventHandler<HTMLInputElement>;
+};
 
+
+class SearchBox extends Component<ISearchBoxProps> {
   render() {
-
     return (
       <input 
         className={`search-box ${this.props.className}`}
@@ -15,7 +20,6 @@ class SearchBox extends Component {
       />
     );
   }
-
 }
 
 export default SearchBox;
